@@ -14,7 +14,7 @@ class SongController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -30,7 +30,7 @@ class SongController extends Controller
 
     public function addSong()
     {
-        return view('song');
+        return view('addSong');
 
     }
 }
