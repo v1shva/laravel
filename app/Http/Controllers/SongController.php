@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Song;
+use Illuminate\Http\Request;
+use Log;
 
 class SongController extends Controller
 {
@@ -14,7 +15,7 @@ class SongController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     /**
@@ -22,15 +23,39 @@ class SongController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        return view('song', ['songs' => Song::all()]);
+        return view('song.songs', ['songs' => Song::all()]);
 
     }
 
     public function addSong()
+
     {
-        return view('addSong');
+        Log::info('here');
+        return view('song.songRegister');
+    }
+
+
+
+
+    protected function create(Request $request)
+    {
+        $data = $request->input();
+/*        $this->validate($request, [
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            'url' => 'required|string|url|unique:songs',
+        ]);*/
+
+
+        Song::create([
+            'title' => $data['title'],
+            'artist' => $data['artist'],
+            'url'=> $data['url']
+        ]);
+        return redirect('song');
 
     }
 }

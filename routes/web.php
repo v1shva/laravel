@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/song', 'SongController@index')->name('song');
-Route::get('/addSong', 'SongController@addSong')->name('addSong');
+Route::get('/addSong', 'SongController@addSong')->name('addNewSong');

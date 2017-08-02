@@ -5,81 +5,57 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">Add New Song</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('registerSong') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                        <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+                            <label for="title" class="col-md-4 control-label">Title</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('title'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('title') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        <div class="form-group{{ $errors->has('artist') ? ' has-error' : '' }}">
+                            <label for="artist" class="col-md-4 control-label">Artist</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="artist" type="text" class="form-control" name="artist" value="{{ old('artist') }}" required>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('artist'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('artist') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('userLevel') ? ' has-error' : '' }}">
-                            <label for="userLevel" class="col-md-4 control-label">User Level</label>
+                        <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
+                            <label for="url" class="col-md-4 control-label">URL</label>
 
                             <div class="col-md-6">
-                                <select id="userLevel" class="form-control" name="userLevel" value="{{ old('userLevel') }}" required>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                </select>
-                                @if ($errors->has('userLevel'))
+                                <input id="url" type="text" class="form-control" name="url" value="{{ old('url') }}" required>
+
+                                @if ($errors->has('url'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('userLevel') }}</strong>
+                                        <strong>{{ $errors->first('url') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Register
+                                    Add Song
                                 </button>
                             </div>
                         </div>
