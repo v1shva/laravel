@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -37,7 +38,6 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
                             <label for="url" class="col-md-4 control-label">URL</label>
 

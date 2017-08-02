@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/song', 'SongController@index')->name('song');
+    Route::get('/addSong', 'SongController@addSong')->name('addNewSong');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/song', 'SongController@index')->name('song');
-Route::get('/addSong', 'SongController@addSong')->name('addNewSong');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Song;
 use Illuminate\Http\Request;
 use Log;
+use Validator;
 
 class SongController extends Controller
 {
@@ -43,18 +44,18 @@ class SongController extends Controller
     protected function create(Request $request)
     {
         $data = $request->input();
-/*        $this->validate($request, [
+        $this->validate($request, [
             'title' => 'required|string|max:255',
             'artist' => 'required|string|max:255',
-            'url' => 'required|string|url|unique:songs',
-        ]);*/
-
+            'url' => 'required|string|url',
+        ]);
 
         Song::create([
             'title' => $data['title'],
             'artist' => $data['artist'],
             'url'=> $data['url']
         ]);
+
         return redirect('song');
 
     }
