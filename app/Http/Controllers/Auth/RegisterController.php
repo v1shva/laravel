@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Entities\UserEntity;
+use Doctrine\ORM\EntityManagerInterface;
+
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:App\Entities\UserEntity',
             'password' => 'required|string|min:6|confirmed',
             'userLevel' => 'required'
         ]);
@@ -70,6 +73,12 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'userLevel'=> $data['userLevel']
         ]);
+/*        return new UserEntity(
+            $data['name'],
+            $data['email'],
+            bcrypt($data['password']),
+            $data['userLevel']
+        )*/
     }
 
 }

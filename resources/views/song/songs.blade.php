@@ -17,16 +17,16 @@
                     <tbody>
                     @foreach ($songs as $song)
                         <tr>
-                            <td>{{ $song->title }}</td>
-                            <td>{{ $song->artist }}</td>
+                            <td>{{ $song->getTitle() }}</td>
+                            <td>{{ $song->getArtist() }}</td>
                             <td>
                                 <ul class="list-group">
                                     <li class="list-group-item">
-                                        URL : {{ $song->url }}
+                                        URL : {{ $song->getUrl() }}
                                     </li>
                                     <li class="list-group-item">
                                         <audio controls>
-                                            <source src="{{$song->url}}" type="audio/mpeg">
+                                            <source src="{{$song->getUrl()}}" type="audio/mpeg">
                                             Your browser does not support the audio tag.
                                         </audio>
                                     </li>

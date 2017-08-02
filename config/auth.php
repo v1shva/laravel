@@ -66,8 +66,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+            'driver' => 'doctrine',
+            'model' => App\Entities\UserEntity::class,
         ],
 
         // 'users' => [
@@ -91,12 +91,9 @@ return [
     |
     */
 
-    'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
+    'password' => [
+        'email' => 'emails.password',
+        'table' => 'password_resets',
+        'expire' => 60,
     ],
-
 ];
