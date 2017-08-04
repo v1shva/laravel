@@ -6,6 +6,7 @@ use App\Entities\SongEntity;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Log;
 use Validator;
 
@@ -18,7 +19,7 @@ class SongController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['web','auth']);
+        //$this->middleware(['web','auth']);
     }
 
     /**
@@ -49,7 +50,8 @@ class SongController extends Controller
     protected function create(Request $request, EntityManagerInterface $em)
     {
 
-
+        $user = Auth::user();
+        //\Log::info($user);
         $data = $request->input();
         $this->validate($request, [
             'title' => 'required|string|max:255',
@@ -60,7 +62,8 @@ class SongController extends Controller
         $song = new SongEntity(
             $data['title'],
             $data['artist'],
-            $data['url']
+            $data['url'],
+            $user
         );
 
         $em->persist($song);
@@ -74,6 +77,22 @@ class SongController extends Controller
         ]);*/
 
         return redirect('song');
+
+    }
+
+    public function getSongs(EntityManagerInterface $em)
+    {
+        $songs = $em->getRepository(SongEntity::class)->findAll();
+        $songList = [];
+        //\Log::info($songs);
+        foreach ($songs as $song){
+            $currentSong["artist"] = $song->getArtist();
+            $currentSong["title"] = $song->getTitle();
+            $currentSong["url"] = $song->getUrl();
+            array_push($songList, $currentSong);
+        }
+        return $songList;
+        /*return view('song.songs', ['songs' => Song::all()]);*/
 
     }
 }

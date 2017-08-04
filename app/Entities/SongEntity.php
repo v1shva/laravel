@@ -39,11 +39,18 @@ class SongEntity
     private $url;
 
 
-    public function __construct($title, $artist, $url)
+    /**
+     * @ORM\ManyToOne(targetEntity="UserEntity")
+     */
+    private $uploadedUser;
+
+
+    public function __construct($title, $artist, $url, $userID)
     {
         $this->title = $title;
         $this->artist = $artist;
         $this->url = $url;
+        $this->uploadedUser = $userID;
     }
 
     public function getId()
@@ -66,6 +73,11 @@ class SongEntity
         return $this->url;
     }
 
+    public function getUploadedUser()
+    {
+        return $this->uploadedUser;
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -79,6 +91,11 @@ class SongEntity
     public function setUrl($url)
     {
        $this->url = $url;
+    }
+
+    public function setUploadedUser($url)
+    {
+        $this->url = $url;
     }
 
 }

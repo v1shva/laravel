@@ -16,9 +16,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/song', 'SongController@index')->name('song');
     Route::get('/addSong', 'SongController@addSong')->name('addNewSong');
     Route::post('/registerSong', 'SongController@create')->name('registerSong');
 });
+
+Route::get('/home', 'HomeController@index')->name('home');
 
