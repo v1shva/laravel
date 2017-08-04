@@ -22,4 +22,3 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/registerSong', 'SongController@create')->name('registerSong');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
