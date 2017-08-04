@@ -16,4 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => ['web']], function () {
+
+});
+
 Route::get('/getSongs', 'SongController@getSongs')->name('getSongs');
+
+Route::get('/getSongsTest' , function () {
+    return "OK";
+});

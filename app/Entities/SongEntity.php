@@ -90,12 +90,12 @@ class SongEntity
 
     public function setUrl($url)
     {
-       $this->url = $url;
-    }
+        $this->url = $url;
 
+    }
     public function setUploadedUser($url)
     {
         $this->url = $url;
-    }
 
+    }
 }

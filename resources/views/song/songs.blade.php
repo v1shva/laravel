@@ -19,7 +19,7 @@
                         <tr>
                             <td>{{ $song->getTitle() }}</td>
                             <td>{{ $song->getArtist() }}</td>
-                            <td>
+                            <td style="width:200px;">
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         URL : {{ $song->getUrl() }}
@@ -32,6 +32,9 @@
                                     </li>
                                 </ul>
 
+                            </td>
+                            <td style="text-align:center">
+                                <button class="btn btn-default" onclick="alert('{{$song->getUploadedUser()->getEmail()}}')"> Rate </button>
                             </td>
 
                         </tr>

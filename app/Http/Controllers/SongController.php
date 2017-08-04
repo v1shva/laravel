@@ -20,6 +20,7 @@ class SongController extends Controller
     public function __construct()
     {
         //$this->middleware(['web','auth']);
+
     }
 
     /**
@@ -30,7 +31,9 @@ class SongController extends Controller
 
     public function index(EntityManagerInterface $em)
     {
+
         $songs = $em->getRepository(SongEntity::class)->findAll();
+        \Log::info($songs);
         return view('song.songs', ['songs' => $songs]);
         /*return view('song.songs', ['songs' => Song::all()]);*/
 
@@ -84,7 +87,7 @@ class SongController extends Controller
     {
         $songs = $em->getRepository(SongEntity::class)->findAll();
         $songList = [];
-        //\Log::info($songs);
+        \Log::info(["Songs",$songs]);
         foreach ($songs as $song){
             $currentSong["artist"] = $song->getArtist();
             $currentSong["title"] = $song->getTitle();
