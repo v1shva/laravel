@@ -34,7 +34,7 @@
 
                             </td>
                             <td style="text-align:center">
-                                <button class="btn btn-default" onclick="alert('{{$song->getUploadedUser()->getEmail()}}')"> Rate </button>
+                                <a class="btn btn-default" href="{{route("rank")}}"> Rate </a>
                             </td>
 
                         </tr>

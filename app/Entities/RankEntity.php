@@ -25,7 +25,7 @@ class RankEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SongEntity")
+     * @ORM\OneToOne(targetEntity="SongEntity")
      */
     private $rankedSong;
 

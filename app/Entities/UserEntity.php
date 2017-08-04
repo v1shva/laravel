@@ -43,6 +43,7 @@ class UserEntity implements Authenticatable
     private $userlevel;
 
 
+
     public function __construct($name, $email, $password, $userlevel)
     {
         $this->name = $name;
@@ -96,6 +97,9 @@ class UserEntity implements Authenticatable
     {
         $this->userlevel = $userlevel;
     }
+
+
+
 
 
 }

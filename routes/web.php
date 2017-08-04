@@ -19,6 +19,7 @@ Auth::routes();
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/song', 'SongController@index')->name('song');
     Route::get('/addSong', 'SongController@addSong')->name('addNewSong');
+    Route::get('/rankSong', 'SongController@rankSong')->name('rank');
     Route::post('/registerSong', 'SongController@create')->name('registerSong');
 });
 

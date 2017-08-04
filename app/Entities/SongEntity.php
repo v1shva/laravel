@@ -40,7 +40,7 @@ class SongEntity
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserEntity")
+     * @ORM\OneToOne(targetEntity="UserEntity")
      */
     private $uploadedUser;
 
@@ -93,9 +93,9 @@ class SongEntity
         $this->url = $url;
 
     }
-    public function setUploadedUser($url)
+    public function setUploadedUser($user)
     {
-        $this->url = $url;
+        $this->uploadedUser = $user;
 
     }
 }

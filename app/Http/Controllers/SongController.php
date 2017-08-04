@@ -46,8 +46,6 @@ class SongController extends Controller
     }
 
 
-
-
     protected function create(Request $request, EntityManagerInterface $em)
     {
 
@@ -94,6 +92,14 @@ class SongController extends Controller
         }
         return $songList;
         /*return view('song.songs', ['songs' => Song::all()]);*/
+
+    }
+
+    public function rankSong (Request $request, EntityManagerInterface $em){
+        $value = $request->query("value");
+        $songID = $request->query("song");
+        \Log::info([$value, $songID]);
+        $em->getRepository(SongEntity::class)->find($songID);
 
     }
 }
