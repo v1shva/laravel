@@ -9,12 +9,13 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class UserEntity implements \Illuminate\Contracts\Auth\Authenticatable
+class UserEntity implements Authenticatable
 {
     use \LaravelDoctrine\ORM\Auth\Authenticatable;
     /**

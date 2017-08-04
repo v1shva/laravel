@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Entities\UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
-
-use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -32,15 +30,15 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+    public $em;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
-       //$this->middleware('guest');
+       $this->em = $em;
     }
 
     /**
@@ -67,12 +65,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'userLevel'=> $data['userLevel']
-        ]);
+        $user = new UserEntity(
+        $data['name'],
+        $data['email'],
+        bcrypt($data['password']),
+        $data['userLevel']
+        );
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
 /*        return new UserEntity(
             $data['name'],
             $data['email'],
