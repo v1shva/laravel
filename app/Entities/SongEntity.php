@@ -20,6 +20,7 @@ class SongEntity
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+
      */
     private $id;
 
@@ -40,7 +41,7 @@ class SongEntity
 
 
     /**
-     * @ORM\OneToOne(targetEntity="UserEntity")
+     * @ORM\ManyToOne(targetEntity="UserEntity")
      */
     private $uploadedUser;
 

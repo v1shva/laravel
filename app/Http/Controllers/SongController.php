@@ -31,8 +31,17 @@ class SongController extends Controller
 
     public function index(EntityManagerInterface $em)
     {
-        $songs = $em->getRepository(SongEntity::class)->findAll();
+        $songs = $em->getRepository(SongEntity::class)->findBy(array("uploadedUser" => Auth::user()));
         \Log::info($songs);
+        $query = $em->createQuery("Select r.value FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
+        $query->setParameter('user', Auth::user());
+        $result = $query->getResult();
+        \Log::info($result);
+        foreach ($songs as $song){
+            $song->rank =  "Not Rated";
+            $rank = $em->getRepository(RankEntity::class)->findBy(array("rankedSong" => $song, "rankedUser" => Auth::user()));
+            if(sizeof($rank)>0) $song->rank = $rank[0]->getValue();
+        }
         return view('song.songs', ['songs' => $songs]);
         /*return view('song.songs', ['songs' => Song::all()]);*/
 
@@ -97,10 +106,17 @@ class SongController extends Controller
     }
 
     public function rankSong (Request $request, EntityManagerInterface $em){
-        $userID = $request->query("user");
-        $songID = $request->query("song");
-        \Log::info([$userID, $songID]);
-        $em->getRepository(RankEntity::class)->find($songID);
+        $data = $request->input();
+        $user = Auth::user();
+        $song = $em->getRepository(SongEntity::class)->find($data['song']);
+        $rank = new RankEntity(
+            $song,
+            $user,
+            $data['rating']
+        );
 
+        $em->merge($rank);
+        $em->flush();
+        return redirect('song');
     }
 }

@@ -17,29 +17,32 @@ use Doctrine\ORM\Mapping as ORM;
 
 class RankEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+
 
     /**
-     * @ORM\OneToOne(targetEntity="SongEntity")
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="SongEntity")
      */
     private $rankedSong;
 
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="UserEntity")
      */
     private $rankedUser;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $value;
 
-    public function __construct($song, $user)
+
+    public function __construct($song, $user, $rank)
     {
         $this->rankedSong = $song;
         $this->rankedUser = $user;
+        $this->value = $rank;
     }
 
     public function getId()
@@ -56,7 +59,11 @@ class RankEntity
     {
         return $this->rankedUser;
     }
-    
+
+    public function getValue(){
+        return $this->value;
+    }
+
     public function setRankedSong($rankedSong)
     {
         $this->rankedSong = $rankedSong;
@@ -65,6 +72,10 @@ class RankEntity
     public function setRankedUser($rankedUser)
     {
         $this->rankedUser = $rankedUser;
+    }
+
+    public function setValue($newValue){
+        $this->value = $newValue;
     }
     
 }
