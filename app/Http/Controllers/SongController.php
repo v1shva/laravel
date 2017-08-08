@@ -32,8 +32,8 @@ class SongController extends Controller
     public function index(EntityManagerInterface $em)
     {
         $songs = $em->getRepository(SongEntity::class)->findBy(array("uploadedUser" => Auth::user()));
-        \Log::info($songs);
-        $query = $em->createQuery("Select r.value FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
+        $query = $em->createQuery("Select r.value, FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
+        $query = $em->createQuery("Select s FROM App\Entities\SongEntity s WHERE s.uploadedUser= :user LEFT JOIN ");
         $query->setParameter('user', Auth::user());
         $result = $query->getResult();
         \Log::info($result);
