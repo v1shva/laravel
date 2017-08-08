@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\RankEntity;
 use App\Entities\SongEntity;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -96,10 +97,10 @@ class SongController extends Controller
     }
 
     public function rankSong (Request $request, EntityManagerInterface $em){
-        $value = $request->query("value");
+        $userID = $request->query("user");
         $songID = $request->query("song");
-        \Log::info([$value, $songID]);
-        $em->getRepository(SongEntity::class)->find($songID);
+        \Log::info([$userID, $songID]);
+        $em->getRepository(RankEntity::class)->find($songID);
 
     }
 }
