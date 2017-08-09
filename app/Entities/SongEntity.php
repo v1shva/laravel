@@ -9,7 +9,8 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entities\RankEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="songs")
@@ -40,14 +41,21 @@ class SongEntity
     private $url;
 
 
+
     /**
      * @ORM\ManyToOne(targetEntity="UserEntity")
      */
     private $uploadedUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="RankEntity", mappedBy="rankedSong")
+     * @ORM\JoinColumn(name="id", referencedColumnName="rankedSong")
+     */
+    private $rank;
 
     public function __construct($title, $artist, $url, $userID)
     {
+        $this->rank = new ArrayCollection();
         $this->title = $title;
         $this->artist = $artist;
         $this->url = $url;

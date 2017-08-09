@@ -17,11 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 class RankEntity
 {
-
-
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="SongEntity")
+     * @ORM\ManyToOne(targetEntity="SongEntity", inversedBy="rank")
+     * @ORM\JoinColumn(name="rankedSong", referencedColumnName="id")
      */
     private $rankedSong;
 
