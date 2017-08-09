@@ -31,18 +31,15 @@ class SongController extends Controller
 
     public function index(EntityManagerInterface $em)
     {
-        $songs = $em->getRepository(SongEntity::class)->findBy(array("uploadedUser" => Auth::user()));
-        $query = $em->createQuery("Select r.value, FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
-        $query = $em->createQuery("Select s FROM App\Entities\SongEntity s WHERE s.uploadedUser= :user LEFT JOIN ");
+        //$songs = $em->getRepository(SongEntity::class)->findBy(array("uploadedUser" => Auth::user()));
+        //$query = $em->createQuery("Select r.value, FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
+        $query = $em->createQuery("Select s, r.value FROM App\Entities\SongEntity s LEFT JOIN s.rank r WHERE s.uploadedUser= :user");
         $query->setParameter('user', Auth::user());
         $result = $query->getResult();
-        \Log::info($result);
-        foreach ($songs as $song){
-            $song->rank =  "Not Rated";
-            $rank = $em->getRepository(RankEntity::class)->findBy(array("rankedSong" => $song, "rankedUser" => Auth::user()));
-            if(sizeof($rank)>0) $song->rank = $rank[0]->getValue();
-        }
-        return view('song.songs', ['songs' => $songs]);
+        dd($result);
+        \Log::info($result[1]);
+
+        //return view('song.songs', ['songs' => $songs]);
         /*return view('song.songs', ['songs' => Song::all()]);*/
 
     }
@@ -108,9 +105,8 @@ class SongController extends Controller
     public function rankSong (Request $request, EntityManagerInterface $em){
         $data = $request->input();
         $user = Auth::user();
-        $song = $em->getRepository(SongEntity::class)->find($data['song']);
         $rank = new RankEntity(
-            $song,
+            $data['song'],
             $user,
             $data['rating']
         );
