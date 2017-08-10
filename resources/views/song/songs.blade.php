@@ -43,7 +43,7 @@
 
                                     </td>
                                     <td style="text-align:center">
-                                        Current Rating: {{$song->rank}}
+                                        Current Rating: {{$song->getRank()}}
                                         <form method="post" action="{{route("rank")}}">
                                             {{ csrf_field() }}
                                                 <fieldset class="rating">
@@ -65,7 +65,7 @@
                                        </form>
                                         <script>
                                             $('document').ready(function(){
-                                                document.getElementById("{{'star'.$song->rank.$song->getId()}}").checked = true
+                                                document.getElementById("{{'star'.$song->getRank().$song->getId()}}").checked = true
                                             });
                                         </script>
                                     </td>

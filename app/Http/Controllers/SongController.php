@@ -33,13 +33,11 @@ class SongController extends Controller
     {
         //$songs = $em->getRepository(SongEntity::class)->findBy(array("uploadedUser" => Auth::user()));
         //$query = $em->createQuery("Select r.value, FROM App\Entities\RankEntity r WHERE EXISTS (SELECT s FROM App\Entities\SongEntity s WHERE (s.uploadedUser= :user AND s = r.rankedSong))");
-        $query = $em->createQuery("Select s, r.value FROM App\Entities\SongEntity s LEFT JOIN s.rank r WHERE s.uploadedUser= :user");
+        $query = $em->createQuery("Select s FROM App\Entities\SongEntity s LEFT JOIN s.rank r WHERE s.uploadedUser= :user");
         $query->setParameter('user', Auth::user());
-        $result = $query->getResult();
-        dd($result);
-        \Log::info($result[1]);
-
-        //return view('song.songs', ['songs' => $songs]);
+        $results = $query->getResult();
+        $songs = $results;
+        return view('song.songs', ['songs' => $songs]);
         /*return view('song.songs', ['songs' => Song::all()]);*/
 
     }
@@ -105,12 +103,12 @@ class SongController extends Controller
     public function rankSong (Request $request, EntityManagerInterface $em){
         $data = $request->input();
         $user = Auth::user();
+        $song = $em->getRepository(SongEntity::class)->find($data['song']);
         $rank = new RankEntity(
-            $data['song'],
+            $song,
             $user,
             $data['rating']
         );
-
         $em->merge($rank);
         $em->flush();
         return redirect('song');
