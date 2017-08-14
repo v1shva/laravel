@@ -43,12 +43,12 @@ class SongEntity
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserEntity")
+     * @ORM\ManyToOne(targetEntity="UserEntity", fetch="EAGER")
      */
     private $uploadedUser;
 
     /**
-     * @ORM\OneToMany(targetEntity="RankEntity", mappedBy="rankedSong", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="RankEntity", mappedBy="rankedSong")
      * @ORM\JoinColumn(name="id", referencedColumnName="rankedSong")
      */
     private $rank;
@@ -113,7 +113,9 @@ class SongEntity
      */
     public function getRank()
     {
-        $ranks = $this->rank;
+       $ranks = $this->rank;
+
+       //print_r($ranks);
         $total = 0;
         if(sizeof($ranks)===0){
             return 0;
@@ -122,6 +124,6 @@ class SongEntity
             $total += $rank->getValue();
         }
         $value =  $total/sizeof($ranks);
-        return round($value * 2) / 2;;
+        return round($value * 2) / 2;
     }
 }

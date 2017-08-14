@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Entities\RankEntity;
 use App\Entities\SongEntity;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Log;
 use Validator;
 
@@ -37,7 +38,9 @@ class SongController extends Controller
         $query->setParameter('user', Auth::user());
         $results = $query->getResult();
         $songs = $results;
-        return view('song.songs', ['songs' => $songs]);
+        $songsAll = $em->getRepository(SongEntity::class)->findAll();
+        //$songsAll = $em->getRepository(SongEntity::class)->findAll();
+        return view('song.songs', ['songs' => $songs, 'songsAll'=> $songsAll]);
         /*return view('song.songs', ['songs' => Song::all()]);*/
 
     }
@@ -53,16 +56,23 @@ class SongController extends Controller
 
     protected function create(Request $request, EntityManagerInterface $em)
     {
-
         $user = Auth::user();
         //\Log::info($user);
         $data = $request->input();
-        $this->validate($request, [
+        $file = file_get_contents($request['file']);
+        $songID = $em->createQueryBuilder()
+            ->select('MAX(s.id)')
+            ->from(' App\Entities\SongEntity', 's')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $songID++;
+        Storage::disk('songs')->put($songID.'_upload.mp3', $file);
+/*        $this->validate($request, [
             'title' => 'required|string|max:255',
             'artist' => 'required|string|max:255',
             'url' => 'required|string|url|unique:App\Entities\SongEntity',
-        ]);
-
+        ]);*/
+        $data['url'] = Storage::disk('songs')->url($songID.'_upload.mp3');
         $song = new SongEntity(
             $data['title'],
             $data['artist'],
@@ -112,5 +122,19 @@ class SongController extends Controller
         $em->merge($rank);
         $em->flush();
         return redirect('song');
+    }
+
+    public function searchSongs(EntityManagerInterface $em, Request $keyword)
+    {
+        $songs = $em->getRepository(SongEntity::class)->createQueryBuilder('s')
+            ->where('s.title LIKE :keyword')
+            ->setParameter('keyword', '%'.$keyword->get('keywords').'%')
+            ->getQuery()
+            ->getResult();
+        return response([
+            'msg' => 'Login Successfull',
+            'markup' => (String) View::make('templates.songTable')->with('songsAll', $songs)
+        ], 200);
+
     }
 }

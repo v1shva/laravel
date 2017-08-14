@@ -55,6 +55,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'songs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/songs'),
+            'url' => env('APP_URL').'/songs',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

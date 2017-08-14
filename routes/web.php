@@ -20,8 +20,17 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/song', 'SongController@index')->name('song');
     Route::get('/addSong', 'SongController@addSong')->name('addNewSong');
     Route::post('/rankSong', 'SongController@rankSong')->name('rank');
+    Route::post('/searchSongs', 'SongController@searchSongs')->name('searchSongs');
     Route::post('/registerSong', 'SongController@create')->name('registerSong');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*Route::get('songs/{file_name}', function($file_name = null)
+{
+    $path = storage_path().'/'.'app'.'/files/'.$file_name;
+    if (file_exists($path)) {
+        return Response::download($path);
+    }
+});*/
 
